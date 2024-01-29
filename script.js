@@ -1,58 +1,67 @@
-function game() {
-    let playerPoints = 0;
-    let computerPoints = 0;
-    let playerSelection, computerSelection;
 
-    function getChoices() {
-        function getComputerChoice () {
-            return (choice = Math.floor(Math.random() * 3) === 0 ? "rock" :
-                Math.floor(Math.random() * 3) === 1 ? "paper" : "scissors")
-        }
-        computerSelection = getComputerChoice()
-        playerSelection = prompt("Rock, Paper, Scissors").toLowerCase()
+let rock = document.querySelector('.rock');
+let paper = document.querySelector('.paper');
+let scissors = document.querySelector('.scissors');
+let currentScore = document.querySelector('.current-score');
+let scoreText = document.querySelector('.score-text');
+let playerSelection = '';
+let computerSelection = '';
+let playerPoints = 0;
+let computerPoints = 0;
 
-        return {
-            computerSelection: computerSelection,
-            playerSelection: playerSelection
-        }
-    }
+rock.addEventListener('click', function() {
+    playerSelection = 'rock';
+    getComputerChoice();
+    playRound();
+});
+paper.addEventListener('click', function() {
+    playerSelection = 'paper';
+    getComputerChoice();
+    playRound();
+});
+scissors.addEventListener('click', function() {
+    playerSelection = 'scissors';
+    getComputerChoice();
+    playRound();
+});
 
-    function playRound (playerSelection, computerSelection) {
-        if(playerSelection === 'rock' && computerSelection === 'rock' ||
-        playerSelection === 'paper' && computerSelection === 'paper' ||
-        playerSelection === 'scissors' && computerSelection === 'scissors'
-        ) {
-            return `You both picked ${playerSelection}, the game is a draw`;
-        } else if (playerSelection === 'rock' && computerSelection === 'scissors' ||
-        playerSelection === 'paper' && computerSelection === 'rock' ||
-        playerSelection === 'scissors' && computerSelection === 'paper'
-        ) {
-            playerPoints++
-            return `You Win! ${playerSelection} beats ${computerSelection}`;
-        } else {
-            computerPoints++
-            return `You Lose! ${computerSelection} beats ${playerSelection} }`;
-        }  
-    }
-    while (playerPoints < 2 && computerPoints < 2) {
-        let choices = getChoices(); // Capture selections from getChoices()
-        playerSelection = choices.playerSelection;
-        computerSelection = choices.computerSelection;
+function getComputerChoice () {
+    return computerSelection = (choice = Math.floor(Math.random() * 3) === 0 ? "rock" :
+        Math.floor(Math.random() * 3) === 1 ? "paper" : "scissors");
+};
 
-        playRound(playerSelection, computerSelection) // updates points
-        console.log(`Player picked ${playerSelection}, computer choice ${computerSelection}. Player points ${playerPoints}, Computer points ${computerPoints}`)
-    }
-    
-    if (playerPoints === 2) {
-        winner = "Player";
-    } else if (computerPoints === 2) {
-        winner = "Computer";
-    }
-    
-    return `${winner} has 2 points, ${winner} wins!`;
 
-    
+function playRound () {
+    if(playerSelection === 'rock' && computerSelection === 'rock' ||
+    playerSelection === 'paper' && computerSelection === 'paper' ||
+    playerSelection === 'scissors' && computerSelection === 'scissors'
+    ) {
+        scoreText.textContent =`You both picked ${playerSelection}, the game is a draw`;
+        updateScore()
+    } else if (playerSelection === 'rock' && computerSelection === 'scissors' ||
+    playerSelection === 'paper' && computerSelection === 'rock' ||
+    playerSelection === 'scissors' && computerSelection === 'paper'
+    ) {
+        playerPoints++;
+        scoreText.textContent = `You Win! ${playerSelection} beats ${computerSelection}`;
+        updateScore()
+    } else {
+        computerPoints++;
+        scoreText.textContent = `You Lose! ${computerSelection} beats ${playerSelection}`;
+        updateScore()
+    }  
 }
 
-let result = game();
-console.log(result);
+function updateScore() {
+    currentScore.textContent = `Player score = ${playerPoints}, Computer Score = ${computerPoints}`;
+    if (playerPoints === 5) {
+        currentScore.textContent = `Player Wins`
+        playerPoints = 0
+        computerPoints = 0
+    }
+    if (computerPoints === 5) {
+        currentScore.textContent = `Computer Wins`
+        playerPoints = 0
+        computerPoints = 0
+    }
+};

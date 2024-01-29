@@ -1,0 +1,6 @@
+.rock, .paper, .scissors {
+    height: 5rem;
+    width: 5rem;
+    font-size: 2em; 
+    margin: 0.5rem 0.5rem;
+}
